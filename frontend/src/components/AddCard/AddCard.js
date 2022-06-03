@@ -2,14 +2,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import './AddCard.css'
 import Button from '@mui/material/Button';
+import { InputLabel , Select , Input ,Chip , MenuItem} from '@mui/material';
 import { OutlinedInput } from '@mui/material';
 import { TextField } from '@mui/material';
 
 
 function AddCard() {
-    const[name,setName]=useState(""); 
+    const[name,setName]=useState("");
+    const[parentCard,setParentCard]=useState("");
     const[description,setDescription]=useState("");
     const[date,setDate]=useState("");
+    const[role,setRole]=useState("");
+    const[languages,setLanguages]=useState([]);
 
     async function add(event){
         event.preventDefault();
@@ -19,7 +23,7 @@ function AddCard() {
             }
         };
 
-        const newCard= {name,description,date}
+        const newCard= {name,parentCard,description,date,role,languages}
         
         try {
             await axios.post("http://localhost:8070/card/add", newCard , config)
@@ -29,6 +33,13 @@ function AddCard() {
             alert("Card can't be Added");
         }
     }
+    const language = [
+        'Sinhala', 'English', 'Tamil'
+    ]
+
+    const handleLanguageChange = (event) => {
+        setLanguages(event.target.value);
+    };
     
     return (
     <div className="container" align="center" >
@@ -45,7 +56,7 @@ function AddCard() {
                 <div className="row">
                     <div className="col-8">
                         <div className="row">
-                            <div className="col-md-8 mb-4">
+                            <div className="col-xl-6 mb-3">
                                 <div className="form-name">
                                     <OutlinedInput
                                         type="text" id="name" placeholder="Name" 
@@ -55,8 +66,18 @@ function AddCard() {
                                     />
                                 </div>
                             </div>
-                            <div> 
-                                <div className="col-md-8 mb-4">
+                            <div className="col-xl-6 mb-5">
+                                <div className="form-name">
+                                    <OutlinedInput
+                                        type="text" id="name" placeholder="ParentID" 
+                                        required fullWidth
+                                        onChange={(e)=>setParentCard(e.target.value)}
+                                        inputProps={{style: {padding: 12}}} 
+                                    />
+                                </div>
+                            </div>
+                             
+                                <div className="col-xl-6 mb-5">
                                     <div className="form-date">
                                         <OutlinedInput 
                                             type="date" id="date" placeholder="Date" required fullWidth
@@ -65,8 +86,47 @@ function AddCard() {
                                         />
                                     </div>
                                 </div>
-                            </div>                       
-                            <div className="col-md-10 mb-4">
+                                                 
+                           
+                            <div className="col-xl-6 mb-4">
+                                <div className="form-name">
+                                    <OutlinedInput
+                                        type="text" id="name" placeholder="Role" 
+                                        required fullWidth
+                                        onChange={(e)=>setRole(e.target.value)}
+                                        inputProps={{style: {padding: 12}}} 
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-md-8 mb-5">
+                                <InputLabel id="demo-mutiple-chip-label">
+                                    Languages
+                                </InputLabel>
+                                <Select
+                                    id="demo-mutiple-chip"
+                                    multiple fullWidth
+                                    value={languages}
+                                    onChange={handleLanguageChange}
+                                    input={<Input id="select-multiple-chip"/>}
+                                    renderValue={(selected) => (
+                                        <div >
+                                            {selected.map((value) => (
+                                                <Chip key={value} label={value}  />
+                                            ))}
+                                        </div>
+                                    )}
+                                    >
+                                    {language.map((language) => (
+                                        <MenuItem key={language} value={language} >
+                                            {language}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div className="col-md-10 mb-4 ">
                                 <div className="form-description">
                                     <TextField
                                         multiline rows={3}
@@ -77,9 +137,6 @@ function AddCard() {
                                     />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="form-group">

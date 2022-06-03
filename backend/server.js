@@ -6,6 +6,8 @@ const dotenv = require("dotenv").config();
 const app = express();
 
 app.use(express.static('public'));
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors());
 
 const CardRouter = require("./routes/cardrouter");
@@ -18,10 +20,10 @@ const URL = process.env.MONGODB_URL;
 
 //connect to database url with the given options
 mongoose.connect(URL,{
-    useCreateIndex: true,
+    // useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
+    // useFindAndModify: true,
 })
 
 //database connection
