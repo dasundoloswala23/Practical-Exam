@@ -28,8 +28,24 @@ exports.addCard = async (req, res) => {
 exports.viewAllCard = async (req, res) => { 
  
     //calling Card model
-    Card.find().then((card) => {
-      res.status(200).json(card)
+    Card.find().then((cards) => {
+
+      let cardArray = [];
+
+      const parentCard = cards.find(card => card.parentCard == null)
+      cardArray.push(parentCard)
+      cards.splice(cards.indexOf(parentCard),1)
+
+      let parentId = parentCard._id;
+      while(cards.length > 0){
+        const child = cards.find(card => card.parentCard.equals(parentId))
+       
+        cardArray.push(child)
+        cards.splice(cards.indexOf(child),1)
+        parentId = child._id
+      }
+
+      res.status(200).json(cardArray)
     }).catch((error) => {
       res.status(500).json({ message: "Error with fetching Card", error: error.message });
     })
