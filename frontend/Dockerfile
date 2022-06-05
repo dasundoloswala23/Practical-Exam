@@ -1,12 +1,9 @@
 # specify base image from dockerhub
-FROM node:latest
+FROM node:alpine AS development
 
 WORKDIR /app
-
-COPY . .
-
 RUN npm install && npm cache clean --force
+COPY . .
+EXPOSE 3000
 
-EXPOSE 8070
-
-ENTRYPOINT [ "node","server.js" ]
+CMD [ "react","start" ]
