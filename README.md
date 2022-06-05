@@ -8,7 +8,7 @@ Check the above link to know how to clone the project
 
 3.In the terminal type cd backend
 
-4. Then type npm install to install all the relevant node packages.
+4.Then type npm install to install all the relevant node packages.
 
 5.Then type npm run start in the terminal to run the backend.
 
