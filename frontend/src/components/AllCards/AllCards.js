@@ -1,5 +1,5 @@
-import React,{useEffect, useState} from 'react'
-import {useNavigate,useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import {blue} from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -53,6 +53,7 @@ function AllCards() {
                     <div className="detailCard" >
                         <div className="p-3">
                             <h2>{Card.name}</h2>
+                            <h6>Card ID :{Card._id}</h6>
                             <h6>Parent Card : {Card.parentCard}</h6>
                             <h6>Time : {Card.date}</h6>
                             <h6>Role : {Card.role}</h6>
