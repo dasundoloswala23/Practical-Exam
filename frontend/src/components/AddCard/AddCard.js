@@ -29,8 +29,6 @@ function AddCard() {
         try {
             await axios.post("http://localhost:8070/card/add", newCard , config)
             alert("Card Added Successfully")  
-            
-            // event.target.reset(); 
             navigate(`/`)
         }catch (error) {         
             alert("Card can't be Added");
