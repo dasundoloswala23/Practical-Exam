@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 import './AddCard.css'
-import Button from '@mui/material/Button';
 import { InputLabel , Select , Input ,Chip , MenuItem} from '@mui/material';
 import { OutlinedInput } from '@mui/material';
 import { TextField } from '@mui/material';
+import {useNavigate } from 'react-router-dom';
 
 
 function AddCard() {
@@ -14,6 +14,7 @@ function AddCard() {
     const[date,setDate]=useState("");
     const[role,setRole]=useState("");
     const[languages,setLanguages]=useState([]);
+    const navigate = useNavigate()
 
     async function add(event){
         event.preventDefault();
@@ -28,7 +29,9 @@ function AddCard() {
         try {
             await axios.post("http://localhost:8070/card/add", newCard , config)
             alert("Card Added Successfully")  
-            event.target.reset(); 
+            
+            // event.target.reset(); 
+            navigate(`/`)
         }catch (error) {         
             alert("Card can't be Added");
         }
